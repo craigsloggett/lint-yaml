@@ -1,0 +1,48 @@
+name: Lint
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    name: GitHub Actions
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Setup Go
+        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
+        with:
+          go-version: 1.25.5
+
+      - name: Install actionlint
+        run: |
+          go install github.com/rhysd/actionlint/cmd/actionlint@a443f344ff32813837fa49f7aa6cbc478d770e62 # v1.7.9
+
+      - name: Lint Workflow Files
+        run: |
+          actionlint -color
+
+  yamllint:
+    name: YAML
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Setup Python
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+        with:
+          python-version: 3.14.2
+
+      - name: Install yamllint
+        run: |
+          pip install --upgrade pip
+          pip install yamllint
+
+      - name: Lint YAML Files
+        run: |-
+          yamllint .
