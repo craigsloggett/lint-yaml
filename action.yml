@@ -1,24 +1,29 @@
-name: My Composite Action
+name: Lint YAML Files
 
-description: A composite action that ...
+description: A composite action for linting YAML files.
 
 inputs:
-  my-input:
-    description: This is my input, there is no other input like it.
+  python-version:
+    description: The version of Python to use when running `yamllint`.
+    default: 3.14.2
     required: false
-    default: The default description.
-
-outputs:
-  my-output:
-    description: The output this composite action produces.
-    value: steps.workflow-step.outputs.my-output
+    type: string
 
 runs:
   using: composite
   steps:
-    - name: Workflow Step
-      id: workflow-step
+    - name: Setup Python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install yamllint
+      run: |
+        pip install --upgrade pip
+        pip install yamllint
+      shell: sh
+
+    - name: Lint YAML Files
       run: |-
-        printf 'my-output=%s\n' "${MY_INPUT}" >> "${GITHUB_OUTPUT}"
-      env:
-        MY_INPUT: inputs.my-input
+        yamllint .
+      shell: sh

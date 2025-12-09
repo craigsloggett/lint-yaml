@@ -1,21 +1,31 @@
-# composite-action-template
+# lint-yaml
 
-A GitHub repository template for creating a new Composite Action.
-
-> Composite actions allow you to collect a series of workflow job steps into a single action which you can then run as a single job step in multiple workflows.
+A composite action for linting YAML files.
 
 ## Usage
 
-See [action.yml](action.yml) for the various `inputs` this action supports.
+```yaml
+name: Lint
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  yamllint:
+    name: YAML
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Lint YAML Files
+        uses: craigsloggett/lint-yaml@v1
+```
 
 ### Inputs
 
-| Input            | Required? | Default                    | Description                                        |
-| ---------------- | --------- | -------------------------- | -------------------------------------------------- |
-| `my-input`       | `false`   | `The default description.` | This is my input, there is no other input like it. |
-
-### Outputs
-
-| Output      | Description                                |
-| ----------- | ------------------------------------------ |
-| `my-output` | The output this composite action produces. |
+| Input            | Required? | Default  | Description                                         |
+| ---------------- | --------- | -------- | --------------------------------------------------- |
+| `python-version` | `false`   | `3.14.2` | The version of Python to use when running yamllint. |

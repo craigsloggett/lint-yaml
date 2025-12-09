@@ -7,6 +7,8 @@ plugins:
   - - '@semantic-release/commit-analyzer'
     - preset: conventionalCommits
       releaseRules:
+        - type: major
+          release: major
         - type: feat
           release: minor
         - type: fix
@@ -35,6 +37,8 @@ plugins:
     - preset: conventionalCommits
       presetConfig:
         types:
+          - type: major
+            section: Major
           - type: feat
             section: Features
           - type: fix
