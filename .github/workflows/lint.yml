@@ -13,18 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Setup Go
-        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
-        with:
-          go-version: 1.25.5
-
-      - name: Install actionlint
-        run: |
-          go install github.com/rhysd/actionlint/cmd/actionlint@a443f344ff32813837fa49f7aa6cbc478d770e62 # v1.7.9
-
       - name: Lint Workflow Files
-        run: |
-          actionlint -color
+        uses: craigsloggett/lint-github-actions-workflows@0ac2e00bf2eefdba492276d1db019af87a4558d1 # v1.0.0
 
   yamllint:
     name: YAML

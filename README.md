@@ -1,12 +1,28 @@
-# composite-action-template
+# lint-yaml
 
-A GitHub repository template for creating a new Composite Action.
-
-> Composite actions allow you to collect a series of workflow job steps into a single action which you can then run as a single job step in multiple workflows.
+A composite action for linting YAML files.
 
 ## Usage
 
-See [action.yml](action.yml) for the various `inputs` this action supports.
+```yaml
+name: Lint
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  yamllint:
+    name: YAML
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Lint YAML Files
+        uses: craigsloggett/lint-yaml@v1
+```
 
 ### Inputs
 
