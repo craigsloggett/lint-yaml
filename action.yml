@@ -21,7 +21,9 @@ runs:
       run: |
         pip install --upgrade pip
         pip install yamllint
+      shell: sh
 
     - name: Lint YAML Files
       run: |-
         yamllint .
+      shell: sh
