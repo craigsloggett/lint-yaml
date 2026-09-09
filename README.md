@@ -29,3 +29,4 @@ jobs:
 | Input            | Required? | Default  | Description                                         |
 | ---------------- | --------- | -------- | --------------------------------------------------- |
 | `python-version` | `false`   | `3.14.2` | The version of Python to use when running yamllint. |
+| `strict`         | `false`   | `false`  | Whether to run `yamllint` with `--strict` or not.   |

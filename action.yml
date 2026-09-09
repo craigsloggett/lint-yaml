@@ -7,10 +7,28 @@ inputs:
     description: The version of Python to use when running `yamllint`.
     default: 3.14.5
     required: false
+  strict:
+    description: Whether to run `yamllint` with `--strict` or not.
+    default: false
+    required: false
 
 runs:
   using: composite
   steps:
+    - name: Validate Strict Input
+      env:
+        STRICT: ${{ inputs.strict }}
+      run: |-
+        case "${STRICT}" in
+          true | false)
+          ;;
+          *)
+          printf '%s\n' "::error::Input 'strict' must be 'true' or 'false', got '${STRICT}'"
+          exit 1
+          ;;
+        esac
+      shell: sh
+
     - name: Setup Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
@@ -24,5 +42,5 @@ runs:
 
     - name: Lint YAML Files
       run: |-
-        yamllint . --strict
+        yamllint ${{ inputs.strict == 'true' && '--strict' || '' }} .
       shell: sh
